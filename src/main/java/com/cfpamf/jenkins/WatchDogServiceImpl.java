@@ -19,6 +19,7 @@ import java.util.UUID;
 
 /**
  * 通知器真正调度的服务，这里主要是向某个接口发送构建结果信息
+ *
  * @author flavone
  * @date 2019/03/27
  */
@@ -36,10 +37,10 @@ public class WatchDogServiceImpl implements WatchDogService {
     private String signature;
 
     public WatchDogServiceImpl(
-                               TaskListener listener,
-                               AbstractBuild build,
-                               String apiUrl,
-                               String microServiceId, String signature) {
+            TaskListener listener,
+            AbstractBuild build,
+            String apiUrl,
+            String microServiceId, String signature) {
         this.listener = listener;
         this.build = build;
         this.apiUrl = apiUrl;
@@ -76,6 +77,7 @@ public class WatchDogServiceImpl implements WatchDogService {
 
     /**
      * 获取当前构建的Url
+     *
      * @return
      */
     private String getBuildUrl() {
@@ -84,6 +86,7 @@ public class WatchDogServiceImpl implements WatchDogService {
 
     /**
      * 根据当前构建数据拼接待发送的数据对象
+     *
      * @param result
      * @return
      */
@@ -106,6 +109,7 @@ public class WatchDogServiceImpl implements WatchDogService {
 
     /**
      * 使用Jenkins代理
+     *
      * @return
      */
     private HttpClient getHttpClient() {

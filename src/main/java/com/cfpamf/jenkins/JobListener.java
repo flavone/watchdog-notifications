@@ -24,16 +24,18 @@ public class JobListener extends RunListener<AbstractBuild> {
 
     /**
      * 在构建启动时的监听操作
+     *
      * @param r
      * @param listener
      */
     @Override
-    public void onStarted(AbstractBuild r, @Nonnull TaskListener listener){
+    public void onStarted(AbstractBuild r, @Nonnull TaskListener listener) {
 
     }
 
     /**
      * 在构建结束时的监听操作
+     *
      * @param r
      * @param listener
      */
@@ -53,6 +55,7 @@ public class JobListener extends RunListener<AbstractBuild> {
 
     /**
      * 根据构建的项目信息获取Notifier的内部服务
+     *
      * @param build
      * @param listener
      * @return

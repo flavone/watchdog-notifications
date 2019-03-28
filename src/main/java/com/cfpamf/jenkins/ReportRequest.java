@@ -4,6 +4,7 @@ import lombok.Data;
 
 /**
  * 推送给报表服务的信息
+ *
  * @author flavone
  * @date 2019/03/27
  */

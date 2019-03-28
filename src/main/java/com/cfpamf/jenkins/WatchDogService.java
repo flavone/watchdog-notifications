@@ -7,6 +7,7 @@ package com.cfpamf.jenkins;
 public interface WatchDogService {
     /**
      * 发送消息
+     *
      * @param result
      */
     void send(Boolean result);
