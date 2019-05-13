@@ -55,24 +55,33 @@ public class WatchDogServiceImpl implements WatchDogService {
     }
 
     private void sendDataToReport(ReportRequest request) {
+        this.listener.getLogger().println("WatchDog: 开始推送构建消息到ARK...");
         HttpClient client = getHttpClient();
         PostMethod post = new PostMethod(apiUrl);
         String body = JSON.toJSONString(request);
-        logger.debug(body);
+        this.listener.getLogger().println("推送内容：\n" + body);
         try {
             post.setRequestEntity(new StringRequestEntity(body, "application/json", "UTF-8"));
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-            logger.error("build request error", e);
+            logger.error("WatchDog: build request error", e);
         }
         try {
             client.executeMethod(post);
-            logger.info(post.getResponseBodyAsString());
+            String responseBody = post.getResponseBodyAsString();
+            logger.debug(responseBody);
+            if (isSuccess(responseBody)) {
+                this.listener.getLogger().println("WatchDog: 已成功推送构建消息到ARK！");
+            } else {
+                this.listener.getLogger().println("WatchDog: 推送构建消息到ARK失败！返回结果如下：\n" + responseBody);
+            }
         } catch (IOException e) {
-            logger.error("send msg error", e);
+            logger.error("WatchDog: send msg error", e);
         }
         post.releaseConnection();
+    }
 
+    private boolean isSuccess(String response) {
+        return JSON.parseObject(response).getBooleanValue("success");
     }
 
     /**
