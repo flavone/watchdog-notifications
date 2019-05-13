@@ -54,6 +54,11 @@ public class WatchDogServiceImpl implements WatchDogService {
         sendDataToReport(buildReportRequest(result));
     }
 
+    /**
+     * 向ARK发送消息
+     *
+     * @param request
+     */
     private void sendDataToReport(ReportRequest request) {
         this.listener.getLogger().println("WatchDog: 开始推送构建消息到ARK...");
         HttpClient client = getHttpClient();
@@ -80,6 +85,12 @@ public class WatchDogServiceImpl implements WatchDogService {
         post.releaseConnection();
     }
 
+    /**
+     * 判断发送ARK是否成功
+     *
+     * @param response
+     * @return
+     */
     private boolean isSuccess(String response) {
         return JSON.parseObject(response).getBooleanValue("success");
     }
@@ -100,7 +111,7 @@ public class WatchDogServiceImpl implements WatchDogService {
      * @return
      */
     private ReportRequest buildReportRequest(Boolean result) {
-        Integer costTime = Integer.valueOf((int) build.getDuration());
+        Integer costTime = (int) build.getDuration();
         String detail = getBuildUrl();
         String jobName = build.getFullDisplayName();
         String context = build.getBuildStatusSummary().message;

@@ -42,14 +42,19 @@ public class JobListener extends RunListener<AbstractBuild> {
     @Override
     public void onCompleted(AbstractBuild r, @Nonnull TaskListener listener) {
         Result result = r.getResult();
+        WatchDogService service = getService(r, listener);
+        if (null == service) {
+            listener.getLogger().println("WatchDog: Can not get instance of WatchDogService, Data will not be sent!");
+            return;
+        }
         if (null != result && result.equals(Result.SUCCESS)) {
-            getService(r, listener).send(true);
+            service.send(true);
         } else if (null != result && result.equals(Result.FAILURE)) {
-            getService(r, listener).send(false);
+            service.send(false);
         } else if (null != result && result.equals(Result.ABORTED)) {
-            getService(r, listener).send(false);
+            service.send(false);
         } else {
-            getService(r, listener).send(false);
+            service.send(false);
         }
     }
 
@@ -69,5 +74,4 @@ public class JobListener extends RunListener<AbstractBuild> {
         }
         return null;
     }
-
 }
